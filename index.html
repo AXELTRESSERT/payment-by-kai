@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment website</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+        
+        body {
+            overflow-x: hidden;
+            color: white;
+        }
+        
+        #video-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+        }
+        
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: -1;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            z-index: 1;
+            position: relative;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 10px;
+            backdrop-filter: blur(5px);
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .warning {
+            color: #ff6b6b;
+            font-weight: bold;
+            margin: 15px 0;
+        }
+        
+        .payment-box {
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            backdrop-filter: blur(5px);
+        }
+        
+        .payment-method {
+            margin-bottom: 15px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+        }
+        
+        .payment-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+            font-size: 1.2rem;
+        }
+        
+        .payment-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .payment-number {
+            font-family: monospace;
+            font-size: 1.1rem;
+        }
+        
+        .btn {
+            background: #25D366;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+        
+        .btn:hover {
+            background: #128C7E;
+        }
+        
+        .proof-box {
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 30px;
+            backdrop-filter: blur(5px);
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        input[type="file"] {
+            width: 100%;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 5px;
+            color: white;
+        }
+        
+        .submit-btn {
+            background: #1877F2;
+            width: 100%;
+            padding: 12px;
+            font-size: 1.1rem;
+        }
+        
+        .submit-btn:hover {
+            background: #0E5CAD;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            padding: 20px;
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+    <video autoplay muted loop id="video-background">
+        <source src="https://files.catbox.moe/hpgbk8.mp4" type="video/mp4">
+       
+    </video>
+    <div class="overlay"></div>
+    
+    <div class="container">
+        <header>
+            <h1>PAYMENT GATEWAY</h1>
+            <p>payment by kai store</p>
+        </header>
+        
+        <div class="payment-box">
+            <h2>PAYMENT METHOD</h2>
+            
+            <div class="payment-method">
+                <div class="payment-title">DANA</div>
+                <div class="payment-info">
+                    <span class="payment-number">081351549017</span>
+                </div>
+            </div>
+            
+            <div class="payment-method">
+                <div class="payment-title">GOPAY</div>
+                <div class="payment-info">
+                    <span class="payment-number">081351549017</span>
+                </div>
+            </div>
+            
+            <div class="payment-method">
+                <div class="payment-title">QRIS</div>
+                <div class="payment-info">
+                    <span>Klik tombol untuk request QRIS</span>
+                    <button class="btn" onclick="requestQris()">Request QRIS</button>
+                </div>
+            </div>
+            
+            <div class="warning">
+                <p>WASPADA CLONE NOMOR REAL KAI</p>
+                <p>NOMOR UTAMA:
+                081351549017</p>
+                <p>NOMOR KEDUA: 9679848147</p>
+            </div>
+        </div>
+        
+        <div class="proof-box">
+            <h2>KIRIM BUKTI TRANSFER</h2>
+            <form id="transfer-form">
+                <div class="form-group">
+                    <label for="proof">Unggah Bukti Transfer:</label>
+                    <input type="file" id="proof" accept="image/*" required>
+                </div>
+                <button type="button" class="btn submit-btn" onclick="sendProof()">Kirim Bukti</button>
+            </form>
+        </div>
+        
+        <footer>
+            <p>© PAYMENT WEB BY KAI</p>
+        </footer>
+    </div>
+
+    <script>
+        function requestQris() {
+            const phoneNumber = "6281351549017";
+            const message = "Bang minta qris nya dong";
+            const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+            window.open(whatsappUrl, '_blank');
+        }
+        
+        function sendProof() {
+            const proofInput = document.getElementById('proof');
+            if (!proofInput.files.length) {
+                alert('Silakan pilih bukti transfer terlebih dahulu');
+                return;
+            }
+            
+            const phoneNumber = "6281351549017";
+            const message = "Halo, ini bukti transfer saya";
+            const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+            
+            
+            
+            alert('Dalam implementasi nyata, bukti transfer akan diupload dan dikirim. Sekarang dialihkan ke WhatsApp.');
+            window.open(whatsappUrl, '_blank');
+        }
+    </script>
+</body>
+</html>
